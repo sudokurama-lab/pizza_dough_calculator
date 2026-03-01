@@ -25,16 +25,19 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: './calculadora-pizza/package-lock.json'
       - name: Install dependencies
+        working-directory: ./calculadora-pizza
         run: npm ci
       - name: Build
+        working-directory: ./calculadora-pizza
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './calculadora-pizza/dist'
 
   deploy:
     environment:
