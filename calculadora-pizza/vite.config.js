@@ -5,5 +5,5 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vite.dev/config/
 export default defineConfig({
   base: '/pizza_dough_calculator/',
-  plugins: [vue(), tailwindcss()],
+  plugins: [vue(), tailwindcss()]
 })

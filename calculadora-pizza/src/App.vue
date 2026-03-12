@@ -1,7 +1,6 @@
 <template>
   <div class="min-h-screen bg-orange-50/30 py-10 px-4 sm:px-6 lg:px-8 font-sans">
     <div class="max-w-4xl mx-auto">
-      
       <header class="text-center mb-10">
         <h1 class="text-4xl font-extrabold text-orange-600 tracking-tight">
           🍕 Calculadora de Pizza
@@ -12,9 +11,8 @@
       </header>
 
       <main class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-        
         <section>
-          <InputForm 
+          <InputForm
             v-model:calcMode="calcMode"
             v-model:availableFlour="availableFlour"
             v-model:pizzas="pizzas"
@@ -27,7 +25,7 @@
         </section>
 
         <section>
-          <RecipeResult 
+          <RecipeResult
             :calcMode="calcMode"
             :estimatedPizzas="estimatedPizzas"
             :weightPerPizza="weightPerPizza"
@@ -40,9 +38,7 @@
             :finalDough="finalDough"
           />
         </section>
-
       </main>
-      
     </div>
   </div>
 </template>
