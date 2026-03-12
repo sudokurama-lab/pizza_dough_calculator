@@ -11,6 +11,9 @@ export function usePizzaMath() {
   const salt = ref(2.5)
   const fermentType = ref('Levadura Seca') // Opciones: 'Levadura Seca', 'Levadura Fresca', 'Poolish', 'Biga'.
 
+  const OIL_PERCENTAGE = 0.02 // 2% de aceite sobre la harina, se puede ajustar o hacer dinámico si se desea
+
+
   // 2. CÁLCULOS BASE DINÁMICOS
   // Si el modo es 'total_flour', la harina total es directamente lo que ingresas.
   const totalFlour = computed(() => {
@@ -36,8 +39,9 @@ export function usePizzaMath() {
 
   const totalWater = computed(() => totalFlour.value * (hydration.value / 100))
   const totalSalt = computed(() => totalFlour.value * (salt.value / 100))
+  const totalOil = computed(() => totalFlour.value * OIL_PERCENTAGE)
 
-// 3. CÁLCULOS DE PREFERMENTO
+  // 3. CÁLCULOS DE PREFERMENTO
   const preferment = computed(() => {
     if (fermentType.value === 'Poolish') {
       const flour = totalFlour.value * 0.20
@@ -80,6 +84,7 @@ export function usePizzaMath() {
       flour: totalFlour.value - prefFlour,
       water: totalWater.value - prefWater,
       salt: totalSalt.value,
+      oil: totalOil.value,
       yeast: yeast,
       yeastType: currentYeastType
     }
@@ -98,6 +103,7 @@ export function usePizzaMath() {
     totalFlour,
     totalWater,
     totalSalt,
+    totalOil,
     preferment,
     finalDough,
     estimatedPizzas

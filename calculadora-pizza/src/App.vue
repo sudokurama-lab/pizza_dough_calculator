@@ -34,6 +34,7 @@
             :totalFlour="totalFlour"
             :totalWater="totalWater"
             :totalSalt="totalSalt"
+            :totalOil="totalOil"
             :preferment="preferment"
             :finalDough="finalDough"
           />
@@ -66,6 +67,7 @@ const {
   totalFlour,
   totalWater,
   totalSalt,
+  totalOil,
   preferment,
   finalDough,
   estimatedPizzas

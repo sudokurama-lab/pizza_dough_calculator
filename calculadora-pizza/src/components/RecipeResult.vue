@@ -21,6 +21,10 @@
           <span>Sal:</span> 
           <span class="font-medium">{{ formatWeight(totalSalt) }} g</span>
         </li>
+        <li class="flex justify-between items-center text-sm">
+          <span>Aceite de Oliva:</span> 
+          <span class="font-medium">{{ formatWeight(totalOil) }} g</span>
+        </li>
       </ul>
       <div v-if="calcMode === 'total_flour'" class="mt-3 text-sm text-orange-800 bg-orange-100 p-3 rounded-lg border border-orange-200 flex items-start">
         <span class="mr-2">💡</span>
@@ -78,6 +82,10 @@
           <span>Sal:</span> 
           <span class="font-medium">{{ formatWeight(finalDough.salt) }} g</span>
         </li>
+        <li class="flex justify-between items-center">
+          <span>Aceite de Oliva:</span> 
+          <span class="font-medium">{{ formatWeight(finalDough.oil) }} g</span>
+        </li>
         
         <li v-if="finalDough.yeast > 0" class="flex justify-between items-center">
           <span>Levadura ({{ finalDough.yeastType }}):</span> 
@@ -104,6 +112,7 @@ const props = defineProps({
   totalFlour: Number,
   totalWater: Number,
   totalSalt: Number,
+  totalOil: Number,
   preferment: Object,
   finalDough: Object
 })
