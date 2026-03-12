@@ -51,6 +51,16 @@
       </div>
 
       <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Aceite de Oliva (gramos)</label>
+        <input 
+          :value="totalOil ? totalOil.toFixed(1) : 0" 
+          readonly 
+          disabled
+          class="w-full rounded-lg border-gray-200 shadow-sm p-2.5 border bg-gray-100 text-gray-500 cursor-not-allowed" 
+        />
+      </div>
+
+      <div>
         <label class="block text-sm font-medium text-gray-700 mb-1">Tipo de Fermento</label>
         <select v-model="fermentType" class="w-full rounded-lg border-gray-300 shadow-sm focus:border-orange-500 focus:ring-orange-500 p-2.5 border bg-gray-50">
           <option value="Levadura Seca">Levadura Seca</option>
@@ -72,4 +82,5 @@ const weightPerPizza = defineModel('weightPerPizza')
 const hydration = defineModel('hydration')
 const salt = defineModel('salt')
 const fermentType = defineModel('fermentType')
+const totalOil = defineModel('totalOil')
 </script>

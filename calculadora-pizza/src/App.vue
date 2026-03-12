@@ -22,6 +22,7 @@
             v-model:hydration="hydration"
             v-model:salt="salt"
             v-model:fermentType="fermentType"
+            v-model:totalOil="totalOil"
           />
         </section>
 
