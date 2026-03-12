@@ -37,7 +37,9 @@
 
 <div v-if="preferment" class="mb-6">
       <h3 class="text-md font-semibold text-blue-700 mb-1">Paso 1: {{ preferment.name }}</h3>
-      <p class="text-xs text-gray-500 mb-3">Mezclar y dejar fermentar según tu temperatura.</p>
+      <p class="text-sm text-gray-600 mb-4 bg-blue-50/50 p-2 rounded border border-blue-100 italic">
+  💡  {{ preferment.instructions }}
+      </p>
       
       <ul class="space-y-2 text-gray-600 bg-blue-50 p-4 rounded-xl border border-blue-100">
         <li class="flex justify-between items-center">
