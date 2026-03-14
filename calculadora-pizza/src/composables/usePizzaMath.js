@@ -97,7 +97,7 @@ export function usePizzaMath() {
       yeast = totalFlour.value * 0.02
       currentYeastType = 'Levadura Seca (Refuerzo)'
       instructions =
-        'Disolver la levadura seca y la biga en el agua restante hasta integrar. Incorporar harina y sal, y amasar hasta desarrollar el gluten. Finalmente, integrar el aceite de oliva y dejar reposar en bloque (20-40 min).'
+        'Disolver la levadura seca y la biga en el agua restante hasta integrar. Incorporar harina y sal, y amasar hasta desarrollar el gluten. Finalmente, integrar el aceite de oliva y dejar reposar en bloque (20-40 min). Una vez reposada, amasar ligeramente y dejar fermentar en bloque (8-12h) a temperatura ambiente con la masa protegida. Una vez fermentada, formar las bolas de pizza y guardar en un recipiente (2-3 h) o hasta que doble el tamaño antes de estirar.'
     } else if (fermentType.value === 'Poolish') {
       yeast = 0
       currentYeastType = 'Ya incluida en el prefermento'
