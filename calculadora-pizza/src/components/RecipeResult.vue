@@ -73,7 +73,16 @@
       <h3 class="text-md font-semibold text-green-700 mb-1">
         {{ preferment ? 'Paso 2: Masa Final' : 'Mezcla Directa' }}
       </h3>
-      <p v-if="preferment" class="text-xs text-gray-500 mb-3">
+
+      <p
+        v-if="finalDough.instructions"
+        class="text-sm text-gray-700 mb-3 p-3 bg-green-50 rounded-lg border border-green-100 italic"
+      >
+        💡 {{ finalDough.instructions }}
+      </p>
+
+      <!-- Fallback anterior para otros preferentos -->
+      <p v-else-if="preferment" class="text-xs text-gray-500 mb-3">
         Mezclar estos ingredientes y añadir todo el {{ preferment.name }} previo.
       </p>
 

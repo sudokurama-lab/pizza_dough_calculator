@@ -1,28 +1,25 @@
-// src/composables/usePizzaMath.js
+/* src/composables/usePizzaMath.js */
 import { ref, computed } from 'vue'
 
 export function usePizzaMath() {
-  // 1. ESTADOS REACTIVOS (Estos serán los inputs del usuario)
-  const calcMode = ref('target_weight') // 'target_weight' (por pizzas) o 'total_flour' (por harina)
-  const availableFlour = ref(1000) // Harina en gramos si usamos el segundo modo
+  // 1. ESTADOS REACTIVOS
+  const calcMode = ref('target_weight')
+  const availableFlour = ref(1000)
   const pizzas = ref(4)
   const weightPerPizza = ref(270)
   const hydration = ref(70)
   const salt = ref(2.5)
-  const fermentType = ref('Levadura Seca') // Opciones: 'Levadura Seca', 'Levadura Fresca', 'Poolish', 'Biga'.
+  const fermentType = ref('Levadura Seca')
 
-  const OIL_PERCENTAGE = 0.02 // 2% de aceite sobre la harina, se puede ajustar o hacer dinámico si se desea
+  const OIL_PERCENTAGE = 0.02
 
   // 2. CÁLCULOS BASE DINÁMICOS
-  // Si el modo es 'total_flour', la harina total es directamente lo que ingresas.
   const totalFlour = computed(() => {
     if (calcMode.value === 'total_flour') return availableFlour.value
-
     const totalPercentage = 1 + hydration.value / 100 + salt.value / 100
     return (pizzas.value * weightPerPizza.value) / totalPercentage
   })
 
-  // Si el modo es 'total_flour', el peso total se calcula sumando los ingredientes.
   const totalWeight = computed(() => {
     if (calcMode.value === 'total_flour') {
       const totalPercentage = 1 + hydration.value / 100 + salt.value / 100
@@ -31,7 +28,6 @@ export function usePizzaMath() {
     return pizzas.value * weightPerPizza.value
   })
 
-  // Calcular cuántas pizzas salen según el peso total y el peso por pizza
   const estimatedPizzas = computed(() => {
     return totalWeight.value / weightPerPizza.value
   })
@@ -54,7 +50,7 @@ export function usePizzaMath() {
       }
     }
     if (fermentType.value === 'Biga') {
-      const flour = totalFlour.value * 0.2
+      const flour = totalFlour.value * 0.3
       return {
         name: 'Biga',
         flour: flour,
@@ -65,9 +61,7 @@ export function usePizzaMath() {
       }
     }
     if (fermentType.value === 'Masa Madre') {
-      // Usamos el 20% del peso de la harina como cantidad total de masa madre a agregar
       const sourdoughTotalWeight = totalFlour.value * 0.2
-      // Como es 100% hidratación, mitad es agua y mitad es harina
       const halfWeight = sourdoughTotalWeight / 2
       return {
         name: 'Masa Madre',
@@ -76,28 +70,44 @@ export function usePizzaMath() {
         yeast: 0,
         instructions:
           "Usa masa madre activa (100% hidratación) en su pico de actividad. Si tienes tu propia masa madre, pesa exactamente la cantidad 'Total a obtener' indicada abajo."
-      } // No lleva levadura extra
+      }
     }
     return null
   })
 
-  // 4. CÁLCULOS DE LA MASA FINAL
+  // 4. CÁLCULOS DE LA MASA FINAL (ACTUALIZADO)
   const finalDough = computed(() => {
-    // Si hay prefermento, restamos sus cantidades. Si no, restamos 0.
     const prefFlour = preferment.value ? preferment.value.flour : 0
     const prefWater = preferment.value ? preferment.value.water : 0
 
     let yeast = 0
     let currentYeastType = fermentType.value
+    let instructions = ''
 
-    // Calculamos la levadura para la masa directa (si no hay prefermento)
     if (fermentType.value === 'Levadura Seca') {
       yeast = totalFlour.value * 0.01 // 1%
+      instructions =
+        'Mezclar la harina con la levadura. Disolver la sal en el agua. Incorporar gradualmente el agua a la harina, amasando hasta integrar. Añadir el aceite al final. Reposar (20-40 min).'
     } else if (fermentType.value === 'Levadura Fresca') {
       yeast = totalFlour.value * 0.03 // 3%
-    } else if (preferment.value) {
+      instructions =
+        'Disolver la levadura en el agua. Añadir harina y sal. Amasar hasta obtener una masa homogénea. Incorporar el aceite al final. Reposar (20-40 min).'
+    } else if (fermentType.value === 'Biga') {
+      // Corregido: 2% sobre harina total
+      yeast = totalFlour.value * 0.02
+      currentYeastType = 'Levadura Seca (Refuerzo)'
+      instructions =
+        'Disolver la levadura seca y la biga en el agua restante hasta integrar. Incorporar harina y sal, y amasar hasta desarrollar el gluten. Finalmente, integrar el aceite de oliva y dejar reposar en bloque (20-40 min).'
+    } else if (fermentType.value === 'Poolish') {
       yeast = 0
       currentYeastType = 'Ya incluida en el prefermento'
+      instructions =
+        'Disolver el Poolish en el agua restante. Incorporar la harina y la sal. Amasar hasta lograr una masa lisa. Integrar el aceite de oliva al final. Reposar en bloque (20-40 min).'
+    } else if (fermentType.value === 'Masa Madre') {
+      yeast = 0
+      currentYeastType = 'Ya incluida en el prefermento'
+      instructions =
+        'Disolver la Masa Madre en el agua. Incorporar harina y sal. Amasar hasta desarrollar el gluten. Integrar el aceite. Fermentación en bloque larga según temperatura (2-4h a TA).'
     }
 
     return {
@@ -106,11 +116,11 @@ export function usePizzaMath() {
       salt: totalSalt.value,
       oil: totalOil.value,
       yeast: yeast,
-      yeastType: currentYeastType
+      yeastType: currentYeastType,
+      instructions
     }
   })
 
-  // 5. EXPORTAR PARA USAR EN LOS COMPONENTES
   return {
     pizzas,
     weightPerPizza,
