@@ -17,8 +17,8 @@ export function usePizzaMath() {
 
   // Optional: Set default percentages when type changes
   watch(fermentType, (newType) => {
-    if (newType === 'Biga') prefermentPercentage.value = 30
-    else if (newType === 'Poolish') prefermentPercentage.value = 20
+    if (newType === 'Biga') prefermentPercentage.value = 50
+    else if (newType === 'Poolish') prefermentPercentage.value = 30
     else if (newType === 'Masa Madre') prefermentPercentage.value = 20
   })
 
