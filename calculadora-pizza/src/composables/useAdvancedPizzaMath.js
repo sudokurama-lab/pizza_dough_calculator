@@ -12,13 +12,13 @@ export function useAdvancedPizzaMath() {
   const oil = ref(2) // %
   const yeast = ref(0.1) // % Levadura en masa final (refuerzo)
 
-  // 2. Estado para múltiples preferentos
+  // 2. Estado para múltiples prefermentos
   // Cada preferento: { id: number, type: 'Poolish'|'Biga'|'Masa Madre', percentage: number }
   const preferments = ref([
     { id: 1, type: 'Poolish', percentage: 20 }
   ])
 
-  // Helpers para preferentos
+  // Helpers para prefermentos
   const addPreferment = () => {
     preferments.value.push({
       id: Date.now(),
@@ -51,7 +51,7 @@ export function useAdvancedPizzaMath() {
   const totalSalt = computed(() => totalFlour.value * (salt.value / 100))
   const totalOil = computed(() => totalFlour.value * (oil.value / 100))
 
-  // 4. Desglose de Preferentos
+  // 4. Desglose de Prefermentos
   const prefermentsList = computed(() => {
     return preferments.value.map(p => {
       const pFlour = totalFlour.value * (p.percentage / 100)
@@ -85,7 +85,7 @@ export function useAdvancedPizzaMath() {
     })
   })
 
-  // 5. Masa Final (Resta lo aportado por preferentos)
+  // 5. Masa Final (Resta lo aportado por prefermentos)
   const finalDough = computed(() => {
     const totalPrefFlour = prefermentsList.value.reduce((acc, p) => acc + p.flour, 0)
     const totalPrefWater = prefermentsList.value.reduce((acc, p) => acc + p.water, 0)

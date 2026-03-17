@@ -17,9 +17,9 @@
       </ul>
     </div>
 
-    <!-- Preferentos -->
+    <!-- Prefermentos -->
     <div v-if="prefermentsList.length > 0" class="mb-6 space-y-4">
-      <h3 class="text-md font-semibold text-blue-700">1. Preferentos</h3>
+      <h3 class="text-md font-semibold text-blue-700">1. Prefermentos</h3>
       
       <div v-for="(p, idx) in prefermentsList" :key="idx" class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm">
         <h4 class="font-bold text-blue-800 mb-1">{{ p.type }} ({{ p.percentage }}%)</h4>
@@ -51,7 +51,7 @@
         <li class="flex justify-between"><span>Levadura Refuerzo:</span> <span class="font-medium">{{ format(finalDough.yeast) }}g</span></li>
       </ul>
       <div v-if="finalDough.water < 0" class="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded">
-         ⚠️ ¡Cuidado! Tus preferentos usan más agua de la indicada en la hidratación total. Sube la hidratación o baja los preferentos.
+         ⚠️ ¡Cuidado! Tus prefermentos usan más agua de la indicada en la hidratación total. Sube la hidratación o baja los prefermentos.
       </div>
     </div>
 

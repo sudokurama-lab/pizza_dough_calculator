@@ -54,10 +54,10 @@
         </div>
       </div>
 
-      <!-- Sección de Preferentos -->
+      <!-- Sección de Prefermentos -->
       <div class="border-t pt-4">
         <h3 class="text-sm font-bold text-gray-700 mb-3 flex justify-between items-center">
-          Preferentos y Fermentos
+          Prefermentos y Fermentos
           <button @click="$emit('add-preferment')" class="text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded hover:bg-purple-200">+ Añadir</button>
         </h3>
         
@@ -77,7 +77,7 @@
         </div>
         
         <div v-if="preferments.length === 0" class="text-xs text-center text-gray-400 italic py-2">
-          Sin preferentos (Método directo)
+          Sin prefermentos (Método directo)
         </div>
       </div>
 
