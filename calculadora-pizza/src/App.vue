@@ -4,7 +4,7 @@
     <div class="max-w-4xl mx-auto">
       <header class="text-center mb-6">
         <h1 class="text-4xl font-extrabold text-orange-600 tracking-tight">
-          🍕 Calculadora de Pizza
+          🧮 Calculadora de Pizza
         </h1>
       </header>
       
@@ -16,7 +16,7 @@
               :class="currentTab === 'simple' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
               class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors"
             >
-              Simulador Básico
+              🍕 Simulador Básico
             </button>
             <button 
               @click="currentTab = 'advanced'"
