@@ -7,28 +7,55 @@
     <div class="mb-6">
       <h3 class="text-md font-semibold text-gray-700 mb-2">Totales Generales</h3>
       <ul class="space-y-1 text-sm text-gray-600 bg-gray-50 p-3 rounded-xl border border-gray-200">
-         <li class="flex justify-between"><span>Harina:</span> <span class="font-bold">{{ format(totalFlour) }}g</span></li>
-         <li class="flex justify-between"><span>Agua:</span> <span class="font-bold">{{ format(totalWater) }}g</span></li>
-         <li class="flex justify-between"><span>Sal:</span> <span class="font-bold">{{ format(totalSalt) }}g</span></li>
-         <li class="flex justify-between"><span>Aceite:</span> <span class="font-bold">{{ format(totalOil) }}g</span></li>
-         <li class="flex justify-between pt-2 border-t mt-1 font-bold text-gray-800">
-            <span>Peso Total:</span> <span>{{ format(totalWeight) }}g</span>
-         </li>
+        <li class="flex justify-between">
+          <span>Harina:</span> <span class="font-bold">{{ format(totalFlour) }}g</span>
+        </li>
+        <li class="flex justify-between">
+          <span>Agua:</span> <span class="font-bold">{{ format(totalWater) }}g</span>
+        </li>
+        <li class="flex justify-between">
+          <span>Sal:</span> <span class="font-bold">{{ format(totalSalt) }}g</span>
+        </li>
+        <li class="flex justify-between">
+          <span>Aceite:</span> <span class="font-bold">{{ format(totalOil) }}g</span>
+        </li>
+        <li class="flex justify-between">
+          <span>Levadura:</span> <span class="font-bold">{{ format(totalYeast) }}g</span>
+        </li>
+        <li class="flex justify-between pt-2 border-t mt-1 font-bold text-gray-800">
+          <span>Peso Total:</span> <span>{{ format(totalWeight) }}g</span>
+        </li>
       </ul>
     </div>
 
     <!-- Prefermentos -->
     <div v-if="prefermentsList.length > 0" class="mb-6 space-y-4">
       <h3 class="text-md font-semibold text-blue-700">1. Prefermentos</h3>
-      
-      <div v-for="(p, idx) in prefermentsList" :key="idx" class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm">
+
+      <div
+        v-for="(p, idx) in prefermentsList"
+        :key="idx"
+        class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm"
+      >
         <h4 class="font-bold text-blue-800 mb-1">{{ p.type }} ({{ p.percentage }}%)</h4>
         <p class="text-xs text-blue-600 mb-2 italic">{{ p.instructions }}</p>
         <div class="grid grid-cols-2 gap-x-4 gap-y-1 text-gray-600">
-           <div class="flex justify-between"><span>Harina:</span> <span class="font-medium">{{ format(p.flour) }}g</span></div>
-           <div class="flex justify-between"><span>Agua:</span> <span class="font-medium">{{ format(p.water) }}g</span></div>
-           <div v-if="p.yeast > 0" class="flex justify-between"><span>Levadura:</span> <span class="font-medium">{{ format(p.yeast) }}g</span></div>
-           <div v-if="p.name === 'Masa Madre'" class="col-span-2 text-xs text-gray-500 mt-1">Usa tu MM activa</div>
+          <div class="flex justify-between">
+            <span>Harina:</span> <span class="font-medium">{{ format(p.flour) }}g</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Agua:</span> <span class="font-medium">{{ format(p.water) }}g</span>
+          </div>
+          <div v-if="p.yeast > 0" class="flex justify-between">
+            <span>Levadura:</span> <span class="font-medium">{{ format(p.yeast) }}g</span>
+          </div>
+          <div v-if="p.name === 'Masa Madre'" class="col-span-2 text-xs text-gray-500 mt-1">
+            Usa tu MM activa
+          </div>
+        </div>
+        <div class="flex justify-between font-bold border-t border-blue-200 mt-2 pt-1 col-span-2">
+          <span>Total prefermento:</span>
+          <span>{{ format(p.flour + p.water + p.yeast) }}g</span>
         </div>
       </div>
     </div>
@@ -38,23 +65,50 @@
       <h3 class="text-md font-semibold text-green-700 mb-2">
         {{ prefermentsList.length > 0 ? '2. Masa Final (Mezcla)' : 'Mezcla Directa' }}
       </h3>
-      <ul class="space-y-2 text-gray-600 bg-green-50 p-4 rounded-xl border border-green-100 text-sm">
-        <li class="flex justify-between"><span>Harina Restante:</span> <span class="font-bold">{{ format(finalDough.flour) }}g</span></li>
+      <ul
+        class="space-y-2 text-gray-600 bg-green-50 p-4 rounded-xl border border-green-100 text-sm"
+      >
         <li class="flex justify-between">
-           <span>Agua Restante:</span> 
-           <span :class="{'text-red-500 font-bold': finalDough.water < 0, 'font-bold': true}">
-             {{ format(finalDough.water) }}g
-           </span>
+          <span>Harina Restante:</span>
+          <span class="font-bold">{{ format(finalDough.flour) }}g</span>
         </li>
-        <li class="flex justify-between"><span>Sal:</span> <span class="font-medium">{{ format(finalDough.salt) }}g</span></li>
-        <li class="flex justify-between"><span>Aceite:</span> <span class="font-medium">{{ format(finalDough.oil) }}g</span></li>
-        <li class="flex justify-between"><span>Levadura Refuerzo:</span> <span class="font-medium">{{ format(finalDough.yeast) }}g</span></li>
+        <li class="flex justify-between">
+          <span>Agua Restante:</span>
+          <span :class="{ 'text-red-500 font-bold': finalDough.water < 0, 'font-bold': true }">
+            {{ format(finalDough.water) }}g
+          </span>
+        </li>
+        <li class="flex justify-between">
+          <span>Sal:</span> <span class="font-medium">{{ format(finalDough.salt) }}g</span>
+        </li>
+        <li class="flex justify-between">
+          <span>Aceite:</span> <span class="font-medium">{{ format(finalDough.oil) }}g</span>
+        </li>
+        <li class="flex justify-between">
+          <span>Levadura Refuerzo:</span>
+          <span class="font-medium">{{ format(finalDough.yeast) }}g</span>
+        </li>
+        <template v-if="prefermentsList.length > 0">
+          <li
+            class="pt-2 border-t mt-1 text-xs font-semibold text-blue-600 uppercase tracking-wide"
+          >
+            Prefermentos
+          </li>
+          <li
+            v-for="(p, idx) in prefermentsList"
+            :key="idx"
+            class="flex justify-between text-blue-700"
+          >
+            <span>{{ p.type }} ({{ p.percentage }}%)</span>
+            <span class="font-bold">{{ format(p.flour + p.water + p.yeast) }}g</span>
+          </li>
+        </template>
       </ul>
       <div v-if="finalDough.water < 0" class="mt-2 text-xs text-red-600 bg-red-50 p-2 rounded">
-         ⚠️ ¡Cuidado! Tus prefermentos usan más agua de la indicada en la hidratación total. Sube la hidratación o baja los prefermentos.
+        ⚠️ ¡Cuidado! Tus prefermentos usan más agua de la indicada en la hidratación total. Sube la
+        hidratación o baja los prefermentos.
       </div>
     </div>
-
   </div>
 </template>
 
@@ -66,7 +120,8 @@ const props = defineProps({
   totalOil: Number,
   totalWeight: Number,
   prefermentsList: Array,
-  finalDough: Object
+  finalDough: Object,
+  totalYeast: Number
 })
 
 const format = (n) => Math.round(n || 0)

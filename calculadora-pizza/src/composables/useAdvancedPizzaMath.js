@@ -14,9 +14,7 @@ export function useAdvancedPizzaMath() {
 
   // 2. Estado para múltiples prefermentos
   // Cada preferento: { id: number, type: 'Poolish'|'Biga'|'Masa Madre', percentage: number }
-  const preferments = ref([
-    { id: 1, type: 'Poolish', percentage: 20 }
-  ])
+  const preferments = ref([{ id: 1, type: 'Poolish', percentage: 20 }])
 
   // Helpers para prefermentos
   const addPreferment = () => {
@@ -40,7 +38,8 @@ export function useAdvancedPizzaMath() {
 
   const totalWeight = computed(() => {
     if (calcMode.value === 'total_flour') {
-      const totalPercentage = 1 + hydration.value / 100 + salt.value / 100 + oil.value / 100
+      const totalPercentage =
+        1 + hydration.value / 100 + salt.value / 100 + oil.value / 100 + yeast.value / 100
       return totalFlour.value * totalPercentage
     }
     return pizzas.value * weightPerPizza.value
@@ -50,10 +49,13 @@ export function useAdvancedPizzaMath() {
   const totalWater = computed(() => totalFlour.value * (hydration.value / 100))
   const totalSalt = computed(() => totalFlour.value * (salt.value / 100))
   const totalOil = computed(() => totalFlour.value * (oil.value / 100))
-
+  const totalYeast = computed(() => {
+    const prefYeast = prefermentsList.value.reduce((acc, p) => acc + p.yeast, 0)
+    return prefYeast + totalFlour.value * (yeast.value / 100)
+  })
   // 4. Desglose de Prefermentos
   const prefermentsList = computed(() => {
-    return preferments.value.map(p => {
+    return preferments.value.map((p) => {
       const pFlour = totalFlour.value * (p.percentage / 100)
       let pWater = 0
       let pYeast = 0
@@ -67,7 +69,7 @@ export function useAdvancedPizzaMath() {
         pWater = pFlour * 0.45 // 45% hidratación
         pYeast = pFlour * 0.01 // 1% levadura fresca (o 0.3% seca -> ajustamos a seco estandard 0.5% aprox o dejamos 1% si es fresca)
         // Usaremos estándar seco: 0.3%
-        pYeast = pFlour * 0.003 
+        pYeast = pFlour * 0.003
         instructions = '45% Hidratación. Fermentar 16-24h a 16-18°C.'
       } else if (p.type === 'Masa Madre') {
         pWater = pFlour // 100% hidratación
@@ -89,7 +91,7 @@ export function useAdvancedPizzaMath() {
   const finalDough = computed(() => {
     const totalPrefFlour = prefermentsList.value.reduce((acc, p) => acc + p.flour, 0)
     const totalPrefWater = prefermentsList.value.reduce((acc, p) => acc + p.water, 0)
-    
+
     // El agua restante puede ser negativa si la hidratación total es baja y usas mucho prefermento líquido
     const remainingWater = totalWater.value - totalPrefWater
 
@@ -98,7 +100,7 @@ export function useAdvancedPizzaMath() {
       water: remainingWater,
       salt: totalSalt.value,
       oil: totalOil.value,
-      yeast: totalFlour.value * (yeast.value / 100), // Levadura de refuerzo
+      yeast: totalFlour.value * (yeast.value / 100) // Levadura de refuerzo
     }
   })
 
@@ -114,14 +116,14 @@ export function useAdvancedPizzaMath() {
     preferments,
     addPreferment,
     removePreferment,
-    
+
     totalWeight,
     totalFlour,
     totalWater,
     totalSalt,
     totalOil,
     estimatedPizzas,
-    
+
     prefermentsList,
     finalDough
   }
