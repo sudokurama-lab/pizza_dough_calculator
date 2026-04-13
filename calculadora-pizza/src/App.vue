@@ -7,29 +7,51 @@
           🧮 Calculadora de Pizza
         </h1>
       </header>
-      
+
       <!-- TABS -->
       <div class="flex justify-center mb-8 border-b border-gray-200">
-         <nav class="-mb-px flex space-x-8">
-            <button 
-              @click="currentTab = 'simple'"
-              :class="currentTab === 'simple' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-              class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors"
-            >
-              🍕 Simulador Básico
-            </button>
-            <button 
-              @click="currentTab = 'advanced'"
-              :class="currentTab === 'advanced' ? 'border-purple-500 text-purple-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
-              class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors"
-            >
-               🧪 Laboratorio Avanzado
-            </button>
-         </nav>
+        <nav class="-mb-px flex space-x-8">
+          <button
+            @click="currentTab = 'simple'"
+            :class="
+              currentTab === 'simple'
+                ? 'border-orange-500 text-orange-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            "
+            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors"
+          >
+            🍕 Simulador Básico
+          </button>
+          <button
+            @click="currentTab = 'advanced'"
+            :class="
+              currentTab === 'advanced'
+                ? 'border-purple-500 text-purple-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            "
+            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors"
+          >
+            🧪 Laboratorio Avanzado
+          </button>
+          <button
+            @click="currentTab = 'preferment'"
+            :class="
+              currentTab === 'preferment'
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+            "
+            class="whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors"
+          >
+            🧫 Prefermentos
+          </button>
+        </nav>
       </div>
 
       <!-- MODO SIMPLE -->
-      <main v-if="currentTab === 'simple'" class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <main
+        v-if="currentTab === 'simple'"
+        class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
+      >
         <section>
           <InputForm
             v-model:calcMode="simple.calcMode"
@@ -39,51 +61,55 @@
             v-model:hydration="simple.hydration"
             v-model:salt="simple.salt"
             v-model:fermentType="simple.fermentType"
-            v-model:prefermentPercentage="simple.prefermentPercentage" 
+            v-model:prefermentPercentage="simple.prefermentPercentage"
             v-model:totalOil="simple.totalOil"
           />
         </section>
 
         <section>
-          <RecipeResult
-            v-bind="simple"
-          />
+          <RecipeResult v-bind="simple" />
         </section>
       </main>
 
       <!-- MODO AVANZADO -->
-      <main v-else class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-         <section>
-            <AdvancedInputForm 
-               v-model:calcMode="adv.calcMode"
-               v-model:availableFlour="adv.availableFlour"
-               v-model:pizzas="adv.pizzas"
-               v-model:weightPerPizza="adv.weightPerPizza"
-               v-model:hydration="adv.hydration"
-               v-model:salt="adv.salt"
-               v-model:oil="adv.oil"
-               v-model:yeast="adv.yeast"
-               :preferments="adv.preferments"
-               @add-preferment="adv.addPreferment"
-               @remove-preferment="adv.removePreferment"
-            />
-         </section>
-         <section>
-            <AdvancedRecipeResult 
-               :totalFlour="adv.totalFlour"
-               :totalWater="adv.totalWater"
-               :totalSalt="adv.totalSalt"
-               :totalOil="adv.totalOil"
-               :totalWeight="adv.totalWeight"
-               :prefermentsList="adv.prefermentsList"
-               :finalDough="adv.finalDough"
-            />
-         </section>
+      <main
+        v-else-if="currentTab === 'advanced'"
+        class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"
+      >
+        <section>
+          <AdvancedInputForm
+            v-model:calcMode="adv.calcMode"
+            v-model:availableFlour="adv.availableFlour"
+            v-model:pizzas="adv.pizzas"
+            v-model:weightPerPizza="adv.weightPerPizza"
+            v-model:hydration="adv.hydration"
+            v-model:salt="adv.salt"
+            v-model:oil="adv.oil"
+            v-model:yeast="adv.yeast"
+            :preferments="adv.preferments"
+            @add-preferment="adv.addPreferment"
+            @remove-preferment="adv.removePreferment"
+          />
+        </section>
+        <section>
+          <AdvancedRecipeResult
+            :totalFlour="adv.totalFlour"
+            :totalWater="adv.totalWater"
+            :totalSalt="adv.totalSalt"
+            :totalOil="adv.totalOil"
+            :totalWeight="adv.totalWeight"
+            :prefermentsList="adv.prefermentsList"
+            :finalDough="adv.finalDough"
+            :totalYeast="adv.totalYeast"
+          />
+        </section>
+      </main>
+      <main v-else-if="currentTab === 'preferment'" class="flex justify-center">
+        <PrefermentCalculator />
       </main>
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref, reactive } from 'vue'
 
@@ -96,6 +122,7 @@ import AdvancedRecipeResult from './components/AdvancedRecipeResult.vue'
 // Importar Composables
 import { usePizzaMath } from './composables/usePizzaMath.js'
 import { useAdvancedPizzaMath } from './composables/useAdvancedPizzaMath.js'
+import PrefermentCalculator from './components/PrefermentCalculator.vue'
 
 const currentTab = ref('simple')
 
